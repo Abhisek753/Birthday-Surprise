@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CONFIG } from '../config'
 import { photos } from '../data/memories'
@@ -21,6 +21,7 @@ export default function Balloons({ onNext }) {
   const [balloons] = useState(() => makeBalloons(CONFIG.reasons.length))
   const [popped, setPopped] = useState([])
   const [open, setOpen] = useState(null)
+  const openedAt = useRef(0)
   const allPopped = popped.length === balloons.length
 
   const popBalloon = (b, e) => {
@@ -32,6 +33,7 @@ export default function Balloons({ onNext }) {
       startVelocity: 18,
       origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight },
     })
+    openedAt.current = e.timeStamp
     setPopped((p) => [...p, b.id])
     setOpen(b)
   }
@@ -56,7 +58,7 @@ export default function Balloons({ onNext }) {
               <button
                 className="balloon"
                 style={{ '--c': b.color, animationDelay: `${b.delay / 3}s` }}
-                onPointerDown={(e) => popBalloon(b, e)}
+                onClick={(e) => popBalloon(b, e)}
                 aria-label="Pop balloon"
               >
                 💗
@@ -72,7 +74,10 @@ export default function Balloons({ onNext }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setOpen(null)}
+            onClick={(e) => {
+              // On phones a stray tap can arrive right after the pop; ignore it
+              if (e.timeStamp - openedAt.current > 500) setOpen(null)
+            }}
           >
             <motion.div
               className="polaroid"
