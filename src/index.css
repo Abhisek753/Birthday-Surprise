@@ -1,0 +1,46 @@
+:root {
+  --pink: #ff5c93;
+  --rose: #ff8fb1;
+  --gold: #ffd27a;
+  --violet: #c084fc;
+  --ink: #fff5f8;
+  --muted: #f0cfe0;
+  --sans: 'Poppins', system-ui, sans-serif;
+  --script: 'Dancing Script', cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: radial-gradient(ellipse at top, #4a1446 0%, #1a0b2e 55%, #0b0618 100%) fixed;
+  background-color: #0b0618;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  color: inherit;
+  background: none;
+}
+
+img {
+  -webkit-user-drag: none;
+}
